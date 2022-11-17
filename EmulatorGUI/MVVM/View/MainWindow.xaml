@@ -37,6 +37,10 @@
                         <MenuItem Header="_Open" 
                                   Command="{Binding OpenFileCommand}"/>
                     </MenuItem>
+                    <MenuItem Header="_Help" Height="25">
+                        <MenuItem Header="_About" 
+                                  Command="{Binding AboutButtonCommand}"/>
+                    </MenuItem>
                 </Menu>
                 
                 <Label Grid.Column="1" 
