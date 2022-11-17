@@ -1,0 +1,111 @@
+﻿<Window x:Class="EmulatorGUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:EmulatorGUI.MVVM.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="450" 
+        Width="800"
+        WindowState="Normal"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResize">
+
+    <Window.DataContext>
+        <viewModel:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top"
+                Height="25">
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftClick"
+                              Command="{Binding MoveWindowCommand}"/>
+            </Border.InputBindings>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <Menu Height="25">
+                    <MenuItem Header="_File" Height="25">
+                        <MenuItem Header="_Open" 
+                                  Command="{Binding OpenFileCommand}"/>
+                    </MenuItem>
+                </Menu>
+                
+                <Label Grid.Column="1" 
+                       Content="Emulator IDE"/>
+                
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,4,0">
+                    <Button Content="−" 
+                            Height="20"
+                            Width="20"
+                            Margin="0,0,1,0"
+                            Command="{Binding MinimizeWindowCommand}"/>
+
+                    <Button Content="🗖"
+                            Height="20"
+                            Width="20"
+                            Margin="0,0,1,0"
+                            Command="{Binding MaximizeWindowCommand}"/>
+
+                    <Button Content="🗙"
+                            Height="20"
+                            Width="20"
+                            Margin="0,0,1,0"
+                            Command="{Binding ShutDownWindowCommand}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Content="Run" Command="{Binding RunCommand}">
+                
+            </Button>
+        </ToolBar>
+        
+        <!--#region Footer-->
+        <Border DockPanel.Dock="Bottom" Height="25">
+        </Border>
+        <!--#endregion-->
+
+        <Border DockPanel.Dock="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TabControl ItemsSource="{Binding FileTabControlItems}"
+                            Grid.Column="1">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding FileName}"/>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Content}"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True">
+                            </TextBox>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </Grid>
+        </Border>
+        
+        
+        
+    </DockPanel>
+</Window>
