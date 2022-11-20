@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EmulatorGUI.MVVM.Model;
+using EmulatorGUI.MVVM.View;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace EmulatorGUI.MVVM.ViewModel
 {
@@ -17,6 +20,7 @@ namespace EmulatorGUI.MVVM.ViewModel
         public RelayCommand ShutDownWindowCommand { get; set; }
         public RelayCommand OpenFileCommand { get; set; }
         public RelayCommand RunCommand { get; set; }
+        public RelayCommand AboutButtonCommand { get; set; }
 
         private ObservableCollection<FileTabItem> _fileTabControlItems;
 
@@ -36,6 +40,7 @@ namespace EmulatorGUI.MVVM.ViewModel
             ShutDownWindowCommand = new RelayCommand(ShutDownWindow);
             OpenFileCommand = new RelayCommand(OpenFile);
             RunCommand = new RelayCommand(Run);
+            AboutButtonCommand = new RelayCommand(AboutButton);
         }
 
         private void MinimizeWindow()
@@ -87,6 +92,12 @@ namespace EmulatorGUI.MVVM.ViewModel
         private void Run()
         {
 
+        }
+
+        private void AboutButton()
+        {
+            var aboutWindow = new AboutWindow();
+            aboutWindow.Show();
         }
     }
 }
