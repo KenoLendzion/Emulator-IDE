@@ -5,10 +5,8 @@ using System.Diagnostics;
 
 namespace EmulatorGUI.MVVM.Model
 {
-    //TODO Figure out a way to remove the OnPropertyChanged() from the setters... so it's not in the model anymore.
     public class CPU : ObservableObject
     {
-        // TODO Implement Keyboard
         private string _name;
         public string Name
         {
@@ -20,9 +18,9 @@ namespace EmulatorGUI.MVVM.Model
             }
         }
 
-        public Display Display { get; set; } //TODO ON Property Changed implementing
-        public Ram Memory { get; set; } //TODO On Property Changed implementing
-        
+        public Display Display { get; set; } 
+        public Ram Memory { get; set; } 
+
         private Stack<ushort> _stack;
         public Stack<ushort> Stack
         {
@@ -44,19 +42,19 @@ namespace EmulatorGUI.MVVM.Model
                 OnPropertyChanged();
             }
         }
-        private ushort _IRegister;
+        private ushort _iRegister;
         public ushort IRegister 
         { 
-            get { return _IRegister; } 
+            get { return _iRegister; } 
             set 
             { 
-                _IRegister = value; 
+                _iRegister = value; 
                 OnPropertyChanged(); 
             } 
         }
 
         private byte _delayTimer;
-        public byte DelayTimer  // TODO Implement DelayTimer
+        public byte DelayTimer
         { 
             get { return _delayTimer; } 
             set 
@@ -93,15 +91,11 @@ namespace EmulatorGUI.MVVM.Model
             Memory = new Ram();
             VRegister = new byte[16];
             Name = "Chip-8"; //TODO Remove name everywhere
-            // Program starts at address 0x200 in memory
-            ProgramCounter = 0x200;
             Stack = new Stack<ushort>();
-            //TODO Remove
-            Stack.Push(10);
-            Stack.Push(11);
-            Stack.Push(15);
-
             Display = new Display();
+
+            // Program starts at address 0x200 in memory.
+            ProgramCounter = 0x200;
         }
 
         public void FetchDecodeExecuteLoop()
@@ -113,9 +107,11 @@ namespace EmulatorGUI.MVVM.Model
 
         private ushort Fetch()
         {
-            // Each instruction is 2 bytes that why i get 2 bytes from memory
-            byte firstInstruction = Memory.Data[ProgramCounter++];
-            byte secondInstruction = Memory.Data[ProgramCounter++];
+            // Each instruction is 2 bytes. That is why i get 2 bytes from memory and increase program counter by 2.
+            byte firstInstruction = Memory.Data[ProgramCounter];
+            ProgramCounter++;
+            byte secondInstruction = Memory.Data[ProgramCounter];
+            ProgramCounter++;
 
             ushort instruction = (ushort)( firstInstruction << 8 );
             instruction = (ushort)( instruction | secondInstruction );
@@ -125,6 +121,7 @@ namespace EmulatorGUI.MVVM.Model
 
         private void Decode(ushort instruction)
         {
+            // I get all values I need at the beginning. That way I don't need to retriev them in the switch down below. 
             ushort firstNibble = (ushort)(instruction  & 0b1111000000000000);
             ushort secondNibble = (ushort)(instruction & 0b0000111100000000);
             ushort thirdNibble = (ushort)(instruction  & 0b0000000011110000);
@@ -204,14 +201,11 @@ namespace EmulatorGUI.MVVM.Model
                     throw new NotImplementedException();
                     break;
                 case 0xD000:
-
                     ushort YCoordinate = (ushort)( VRegister[vYRegisterAddress] & 31 );
-                    
-
                     VRegister[0xF] = 0x00;
+
                     for( int i = 0; i < forthNibble; i++ )
                     {
-
                         byte currentSprite = Memory.Data[IRegister + i];
                         ushort XCoordinate = (ushort)( VRegister[vXRegisterAddress] & 63 );
                         for( int bit = 0; bit < 8; bit++ )

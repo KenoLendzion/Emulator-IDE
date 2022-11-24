@@ -8,7 +8,7 @@
         Title="MainWindow" 
         Height="450" 
         Width="800"
-        WindowState="Normal"
+        WindowState="Maximized"
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="CanResize">
@@ -19,7 +19,8 @@
 
     <DockPanel>
         <Border DockPanel.Dock="Top"
-                Height="25">
+                Height="25"
+                Margin="5,5,5,0">
             <Border.InputBindings>
                 <MouseBinding MouseAction="LeftClick"
                               Command="{Binding MoveWindowCommand}"/>
@@ -108,8 +109,5 @@
                 </TabControl>
             </Grid>
         </Border>
-        
-        
-        
     </DockPanel>
 </Window>

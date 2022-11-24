@@ -5,10 +5,10 @@ using EmulatorGUI.MVVM.View;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Navigation;
 
 namespace EmulatorGUI.MVVM.ViewModel
 {
@@ -72,7 +72,7 @@ namespace EmulatorGUI.MVVM.ViewModel
 
             byte[] filebytes = File.ReadAllBytes(openFileDialog.FileName);
 
-            string content = BitConverter.ToString(filebytes).Replace("-","");
+            string content = BitConverter.ToString(filebytes).Replace("-","").Replace(" ", "");
 
             for( int stringPostition = 0; stringPostition < content.Length; stringPostition+=4 )
             {
@@ -91,7 +91,12 @@ namespace EmulatorGUI.MVVM.ViewModel
 
         private void Run()
         {
+            Task.Factory.StartNew(new Action(() =>
+            {
+                var chip8View = new Chip8Window();
+                chip8View.Show();
 
+            }), CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void AboutButton()

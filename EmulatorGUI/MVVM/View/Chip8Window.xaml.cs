@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace EmulatorGUI.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for Chip8View.xaml
+    /// Interaction logic for Chip8Window.xaml
     /// </summary>
-    public partial class Chip8View : UserControl
+    public partial class Chip8Window : Window
     {
-        public Chip8View()
+        public Chip8Window()
         {
             InitializeComponent();
         }
