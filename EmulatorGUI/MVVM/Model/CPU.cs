@@ -83,9 +83,17 @@ namespace EmulatorGUI.MVVM.Model
             { 
                 _programCounter = value; 
                 OnPropertyChanged();
-                Debug.WriteLine("PropertyChanged");
             }
         }
+
+        private bool[] _keypad;
+                    
+        public bool[] Keypad
+        {
+            get { return _keypad; }
+            set { _keypad = value; OnPropertyChanged(); }
+        }
+
         public CPU()
         {
             Memory = new Ram();
@@ -158,7 +166,8 @@ namespace EmulatorGUI.MVVM.Model
                                     throw new NotImplementedException();
                             }
                             break;
-                        // Opcode 0NNN Not implemented because it would stop Chip-8 program and call subroutin on the actual Chip the chip8 runs on
+                        // Opcode 0NNN Not implemented because it would stop Chip-8 program and call subroutin on the
+                        // actual Chip the chip8 runs on
                         default: 
                             throw new NotImplementedException();
                             break;
