@@ -32,6 +32,29 @@
                         Grid.Column="0">
                     <Label>Screen</Label>
                 </Border>
+
+                <Border Grid.Row="1" 
+                        Grid.Column="0">
+                    <ItemsControl ItemsSource="{Binding Rectangles}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Left" Value="{Binding X}"></Setter>
+                                <Setter Property="Canvas.Top" Value="{Binding Y}"></Setter>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="{Binding Fill}"></Rectangle>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+                
                 <Border Grid.Row="0" 
                         Grid.Column="1">
                     <Label>Registers</Label>
@@ -125,11 +148,16 @@
                 <Border Grid.Row="2" 
                         Grid.Column="0">
                     <Label>Instructions</Label>
+
                 </Border>
-                <Border Grid.Row="3" 
+                <Button Grid.Row="3" 
+                        Grid.Column="0"
+                        Content="One Cycle" 
+                        Command="{Binding RunOneCycle}"></Button>
+                <!--<Border Grid.Row="3" 
                         Grid.Column="0">
                     <TextBox BorderThickness="0"/>
-                </Border>
+                </Border>-->
             </Grid>
         </Border>
     </DockPanel>
