@@ -132,15 +132,13 @@
                 <Border Grid.Row="1" 
                         Grid.RowSpan="3" 
                         Grid.Column="2">
-                    <ListBox ItemsSource="{Binding Cpu.Stack}"
-                             BorderThickness="0"/>
+                    <ListBox ItemsSource="{Binding Cpu.Stack}"/>
                 </Border>
 
                 <Border Grid.Row="1" 
                         Grid.RowSpan="3"
                         Grid.Column="3" >
-                    <ListBox ItemsSource="{Binding Cpu.Memory.Data}"
-                             BorderThickness="0"/>
+                    <ListBox ItemsSource="{Binding Cpu.Memory.Data}"/>
                 </Border>
                 <Border Grid.Row="2" 
                         Grid.Column="0">
@@ -155,7 +153,7 @@
                 </Border>
                 <Border Grid.Row="3" 
                         Grid.Column="0">
-                    <TextBox BorderThickness="0"/>
+                    <TextBox/>
                 </Border>
             </Grid>
         </Border>
