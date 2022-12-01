@@ -158,7 +158,8 @@ namespace EmulatorGUI.MVVM.Model
                                     throw new NotImplementedException();
                             }
                             break;
-                        default: // Opcode 0NNN Not implemented see Langhoffs Articel on why.
+                        // Opcode 0NNN Not implemented because it would stop Chip-8 program and call subroutin on the actual Chip the chip8 runs on
+                        default: 
                             throw new NotImplementedException();
                             break;
                     }
@@ -171,13 +172,22 @@ namespace EmulatorGUI.MVVM.Model
                     ProgramCounter = NNN;
                     break;
                 case 0x3000:
-                    throw new NotImplementedException();
+                    if( vXRegisterAddress == NN )
+                    {
+                        ProgramCounter += 2;
+                    }
                     break;
                 case 0x4000:
-                    throw new NotImplementedException();
+                    if( vXRegisterAddress != NN )
+                    {
+                        ProgramCounter += 2;
+                    }
                     break;
                 case 0x5000:
-                    throw new NotImplementedException();
+                    if( vXRegisterAddress == vYRegisterAddress )
+                    {
+                        ProgramCounter += 2;
+                    }
                     break;
                 case 0x6000:
                     VRegister[vXRegisterAddress] = (byte)NN;
@@ -186,19 +196,80 @@ namespace EmulatorGUI.MVVM.Model
                     VRegister[vXRegisterAddress] += (byte)NN; 
                     break;
                 case 0x8000:
-                    throw new NotImplementedException();
+                    switch( forthNibble )
+                    {
+                        case 0:
+                            vXRegisterAddress = vYRegisterAddress;
+                            break;
+                        case 1:
+                            vXRegisterAddress = (ushort)((int)vXRegisterAddress | (int)vYRegisterAddress);
+                            break;
+                        case 2:
+                            vXRegisterAddress = (ushort)( (int)vXRegisterAddress & (int)vYRegisterAddress );
+                            break;
+                        case 3:
+                            vXRegisterAddress = (ushort)( (int)vXRegisterAddress ^ (int)vYRegisterAddress );
+                            break;
+                        case 4:
+                            vXRegisterAddress += vYRegisterAddress;
+                            if( (vXRegisterAddress += vYRegisterAddress) > 255)
+                            {
+                                VRegister[0xF] = 1; 
+                            }
+                            break;
+                        case 5:
+                            vXRegisterAddress -= vYRegisterAddress;
+                            if( vXRegisterAddress > vYRegisterAddress)
+                            {
+                                VRegister[0xF] = 1;
+                            }
+                            else
+                            {
+                                VRegister[0xF] = 0;
+
+                            }
+                            break;
+                        case 7:
+                            vXRegisterAddress -= vYRegisterAddress;
+                            if( vXRegisterAddress > vYRegisterAddress )
+                            {
+                                VRegister[0xF] = 1;
+                            }
+                            else
+                            {
+                                VRegister[0xF] = 0;
+
+                            }
+                            break;
+                        case 6:
+                            vXRegisterAddress = vYRegisterAddress;
+                            vXRegisterAddress = (ushort)((int)vXRegisterAddress >> 1);
+                            ushort bit = (ushort)((int)vYRegisterAddress & 0b0000000000000001);
+                            VRegister[0xF] = (byte)bit;
+                            break;
+                        case 0xE:
+                            vXRegisterAddress = vYRegisterAddress;
+                            vXRegisterAddress = (ushort)( (int)vXRegisterAddress << 1 );
+                            ushort bit2 = (ushort)( (int)vYRegisterAddress & 0b1000000000000000 );
+                            VRegister[0xF] = (byte)bit2;
+                            break;
+                    }
                     break;
                 case 0x9000:
-                    throw new NotImplementedException();
+                    if( vXRegisterAddress != vYRegisterAddress )
+                    {
+                        ProgramCounter += 2;
+                    }
                     break;
                 case 0xA000:
                     IRegister = NNN;
                     break;
                 case 0xB000:
-                    throw new NotImplementedException();
+                    ProgramCounter = (ushort)(NNN + VRegister[0x0]);
                     break;
                 case 0xC000:
-                    throw new NotImplementedException();
+                    Random rand = new Random();
+                    vXRegisterAddress = (ushort)(NN & rand.Next(16));
                     break;
                 case 0xD000:
                     ushort YCoordinate = (ushort)( VRegister[vYRegisterAddress] & 31 );
