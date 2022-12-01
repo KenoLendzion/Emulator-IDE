@@ -316,7 +316,23 @@ namespace EmulatorGUI.MVVM.Model
                     }
                     break;
                 case 0xE000:
-                    throw new NotImplementedException();
+                    switch( thirdNibble & forthNibble )
+                    {
+                        case 0x009E:
+                            if(Keypad[secondNibble] == true)
+                            {
+                                ProgramCounter += 2;
+                            }
+                            break;
+                        case 0x00A1:
+                            if( Keypad[secondNibble] == false )
+                            {
+                                ProgramCounter += 2;
+                            }
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
                     break;
                 case 0xF000:
                     throw new NotImplementedException();
