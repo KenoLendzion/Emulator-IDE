@@ -15,7 +15,6 @@ namespace EmulatorGUI.MVVM.Model
         {
             Data = new byte[4096];
             SetFonts();
-            //LoadIBMLogoProgramToMemory();
             LoadProgramToMemory(@"C:\Users\kenol\source\Chip-8\IBM Logo.ch8", 0x200);
         }
 
