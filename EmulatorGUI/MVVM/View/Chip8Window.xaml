@@ -18,7 +18,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="160"/>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="50"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -54,7 +54,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Border>
-                
+
                 <Border Grid.Row="0" 
                         Grid.Column="1">
                     <Label>Registers</Label>
@@ -67,7 +67,7 @@
                         Grid.Column="3">
                     <Label>Memory</Label>
                 </Border>
-                
+
                 <!--#region Register View-->
                 <Border Grid.Row="1" 
                         Grid.RowSpan="3" 
@@ -144,17 +144,19 @@
                 </Border>
                 <Border Grid.Row="2" 
                         Grid.Column="0">
-                    <Label>Instructions</Label>
-
+                    <StackPanel>
+                        <Label>Instructions</Label>
+                        <Button Grid.Row="3" 
+                                Grid.Column="0"
+                                Content="One Cycle" 
+                                Command="{Binding RunOneCycle}">
+                        </Button>
+                    </StackPanel>
                 </Border>
-                <Button Grid.Row="3" 
-                        Grid.Column="0"
-                        Content="One Cycle" 
-                        Command="{Binding RunOneCycle}"></Button>
-                <!--<Border Grid.Row="3" 
+                <Border Grid.Row="3" 
                         Grid.Column="0">
                     <TextBox BorderThickness="0"/>
-                </Border>-->
+                </Border>
             </Grid>
         </Border>
     </DockPanel>
