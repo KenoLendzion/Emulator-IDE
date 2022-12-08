@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EmulatorGUI.Helper;
 using EmulatorGUI.MVVM.Model;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -21,33 +22,37 @@ namespace EmulatorGUI.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-        private CPU _cpu;
-        public CPU Cpu
+        private Chip8Model _chip8Model;
+        public Chip8Model Chip8Model
         {
-            get { return _cpu; }
+            get { return _chip8Model; }
             set 
             { 
-                _cpu = value;
+                _chip8Model = value;
                 OnPropertyChanged();
             }
         }
 
         public Chip8ViewModel()
         {
-            Cpu = new CPU();
+            Chip8Model = new Chip8Model();
             RunOneCycle = new RelayCommand(RunOneCycleMethod);
             SetUpRectangles();
+
+            Chip8Helper chip8Helper = new Chip8Helper();
+            chip8Helper.LoadProgramToMemory(Chip8Model, @"C:\Users\kenol\source\Chip-8\IBM Logo.ch8", 0x200);
+                
         }
 
         public void UpdateRectangles()
         {
             List<bool> BoolArrayForRectangles = new List<bool>(); 
 
-            for( int i = 0; i < Cpu.Display.Screen.GetLength(0); i++ )
+            for( int i = 0; i < Chip8Model.Screen.GetLength(0); i++ )
             {
-                for( int j = 0; j < Cpu.Display.Screen.GetLength(1); j++ )
+                for( int j = 0; j < Chip8Model.Screen.GetLength(1); j++ )
                 {
-                    BoolArrayForRectangles.Add(Cpu.Display.Screen[i, j]);
+                    BoolArrayForRectangles.Add(Chip8Model.Screen[i, j]);
                 }
             }
 
@@ -78,16 +83,16 @@ namespace EmulatorGUI.MVVM.ViewModel
                         Width = _rectangleSize,
                         X = j * _rectangleSize,
                         Y = i * _rectangleSize,
-                        Fill = Cpu.Display.Screen[i,j] == true ? Brushes.Cyan : Brushes.White,
+                        Fill = Chip8Model.Screen[i,j] == true ? Brushes.Cyan : Brushes.White,
                     };
                     Rectangles.Add(rectangle);
                 }
             }
         }
-
         public void RunOneCycleMethod()
         {
-            Cpu.FetchDecodeExecuteLoop();
+            Chip8Helper chip8Helper = new Chip8Helper();
+            chip8Helper.ExecuteOneCycle(Chip8Model);
             UpdateRectangles();
         }
     }

@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Core\" />
-    <Folder Include="MVVM\UserControls\" />
   </ItemGroup>
 
 </Project>

@@ -8,8 +8,7 @@
         Title="Chip-8" Height="450" Width="800">
 
     <Window.DataContext>
-        <viewModel:Chip8ViewModel>
-        </viewModel:Chip8ViewModel>
+        <viewModel:Chip8ViewModel/>
     </Window.DataContext>
 
     <DockPanel>
@@ -73,55 +72,55 @@
                         Grid.RowSpan="3" 
                         Grid.Column="1">
                     <StackPanel>
-                        <Label Content="{Binding Cpu.ProgramCounter}" 
+                        <Label Content="{Binding Chip8Model.ProgramCounter}" 
                                ContentStringFormat="Program Counter: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[0]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[0]}" 
                                ContentStringFormat="v0: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[1]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[1]}" 
                                ContentStringFormat="v1: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[2]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[2]}" 
                                ContentStringFormat="v2: {0}" 
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[3]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[3]}" 
                                ContentStringFormat="v3: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[4]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[4]}" 
                                ContentStringFormat="v4: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[5]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[5]}" 
                                ContentStringFormat="v5: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[6]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[6]}" 
                                ContentStringFormat="v6: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[7]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[7]}" 
                                ContentStringFormat="v7: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[8]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[8]}" 
                                ContentStringFormat="v8: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[9]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[9]}" 
                                ContentStringFormat="v9: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[10]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[10]}" 
                                ContentStringFormat="vA: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[11]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[11]}" 
                                ContentStringFormat="vB: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[12]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[12]}" 
                                ContentStringFormat="vC: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[13]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[13]}" 
                                ContentStringFormat="vD: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[14]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[14]}" 
                                ContentStringFormat="vE: {0}"
                                Padding="5,0,0,0"/>
-                        <Label Content="{Binding Cpu.VRegister[15]}" 
+                        <Label Content="{Binding Chip8Model.VRegister[15]}" 
                                ContentStringFormat="vF: {0}"
                                Padding="5,0,0,0"/>
                     </StackPanel>
@@ -132,13 +131,13 @@
                 <Border Grid.Row="1" 
                         Grid.RowSpan="3" 
                         Grid.Column="2">
-                    <ListBox ItemsSource="{Binding Cpu.Stack}"/>
+                    <ListBox ItemsSource="{Binding Chip8Model.Stack}"/>
                 </Border>
 
                 <Border Grid.Row="1" 
                         Grid.RowSpan="3"
                         Grid.Column="3" >
-                    <ListBox ItemsSource="{Binding Cpu.Memory.Data}"/>
+                    <ListBox ItemsSource="{Binding Chip8Model.Memory}"/>
                 </Border>
                 <Border Grid.Row="2" 
                         Grid.Column="0">
