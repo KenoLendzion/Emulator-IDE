@@ -1,14 +1,8 @@
-﻿using EmulatorGUI.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EmulatorLibrary.Interfaces;
 
-namespace EmulatorGUI.Helper
+namespace EmulatorLibrary.Helper
 {
-    internal class Chip8Helper
+    public class Chip8Helper
     {
         public void ExecuteOneCycle(IChip8 chip8)
         {

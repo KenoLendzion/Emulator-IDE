@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmulatorGUI.Interfaces
+namespace EmulatorLibrary.Interfaces
 {
-    internal interface IChip8
+    public interface IChip8
     {
         byte[] Memory { get; set; }
         public bool[,] Screen { get; set; }

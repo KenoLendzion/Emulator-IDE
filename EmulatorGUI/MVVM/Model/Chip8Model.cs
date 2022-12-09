@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using EmulatorGUI.Interfaces;
 using System.Collections.Generic;
+using EmulatorLibrary.Interfaces;
 
 namespace EmulatorGUI.MVVM.Model
 {

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using EmulatorGUI.Helper;
 using EmulatorGUI.MVVM.Model;
+using EmulatorLibrary.Helper;
 using System.Collections.Generic;
 using System.Windows.Media;
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmulatorGUI", "EmulatorGUI\EmulatorGUI.csproj", "{37E60C30-D128-433E-8629-6B2F471CA120}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmulatorLibrary", "EmulatorLibrary\EmulatorLibrary.csproj", "{8631785E-19D5-4713-A255-A02E1D6589F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{37E60C30-D128-433E-8629-6B2F471CA120}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37E60C30-D128-433E-8629-6B2F471CA120}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37E60C30-D128-433E-8629-6B2F471CA120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8631785E-19D5-4713-A255-A02E1D6589F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8631785E-19D5-4713-A255-A02E1D6589F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8631785E-19D5-4713-A255-A02E1D6589F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8631785E-19D5-4713-A255-A02E1D6589F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
