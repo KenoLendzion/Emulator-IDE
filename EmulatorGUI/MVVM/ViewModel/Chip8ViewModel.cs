@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using EmulatorGUI.MVVM.Model;
 using EmulatorLibrary.Helper;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Media;
 
 namespace EmulatorGUI.MVVM.ViewModel
@@ -10,7 +11,9 @@ namespace EmulatorGUI.MVVM.ViewModel
     internal class Chip8ViewModel : ObservableObject
     {
         public RelayCommand RunOneCycle { get; set; }
-
+        public RelayCommand RunChip8 { get; set; }
+        private Thread chip8RunThread { get; set; }
+        private Chip8Helper chip8Helper { get; set; } 
         private int _rectangleSize = 4;
         private List<Rect> _rectangles;
         public List<Rect> Rectangles
@@ -37,11 +40,12 @@ namespace EmulatorGUI.MVVM.ViewModel
         {
             Chip8Model = new Chip8Model();
             RunOneCycle = new RelayCommand(RunOneCycleMethod);
+            RunChip8 = new RelayCommand(StartChip8Thread);
+            chip8RunThread = new Thread();
             SetUpRectangles();
 
             Chip8Helper chip8Helper = new Chip8Helper();
-            chip8Helper.LoadProgramToMemory(Chip8Model, @"C:\Users\kenol\source\Chip-8\IBM Logo.ch8", 0x200);
-                
+            chip8Helper.LoadProgramIntoMemory(Chip8Model, @"C:\Users\kenol\source\Chip-8\IBM Logo.ch8", 0x200);
         }
 
         public void UpdateRectangles()
@@ -89,11 +93,21 @@ namespace EmulatorGUI.MVVM.ViewModel
                 }
             }
         }
+
         public void RunOneCycleMethod()
         {
-            Chip8Helper chip8Helper = new Chip8Helper();
             chip8Helper.ExecuteOneCycle(Chip8Model);
             UpdateRectangles();
+        }
+
+        public void StartChip8Thread()
+        {
+            chip8RunThread.Start();
+        }
+
+        public void RunChip8Method()
+        {
+
         }
     }
 }

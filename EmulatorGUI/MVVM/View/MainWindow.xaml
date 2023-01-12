@@ -17,6 +17,10 @@
         <viewModel:MainWindowViewModel/>
     </Window.DataContext>
 
+    <Window.InputBindings>
+        <KeyBinding Key="Q" Command="{Binding KeyPressed}"/>
+    </Window.InputBindings>
+    
     <DockPanel>
         <Border DockPanel.Dock="Top"
                 Height="25"

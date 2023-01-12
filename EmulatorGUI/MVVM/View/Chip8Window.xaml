@@ -6,7 +6,26 @@
         xmlns:viewModel="clr-namespace:EmulatorGUI.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="Chip-8" Height="450" Width="800">
-
+    
+    <Window.InputBindings>
+        <KeyBinding Key="1" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="2" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="3" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="4" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="Q" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="W" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="E" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="R" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="A" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="S" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="D" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="F" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="Y" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="X" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="C" Command="{Binding KeyPressed}"/>
+        <KeyBinding Key="V" Command="{Binding KeyPressed}"/>
+    </Window.InputBindings>
+    
     <Window.DataContext>
         <viewModel:Chip8ViewModel/>
     </Window.DataContext>
@@ -17,7 +36,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="160"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -147,6 +166,10 @@
                                 Grid.Column="0"
                                 Content="One Cycle" 
                                 Command="{Binding RunOneCycle}">
+                        </Button>
+                        <Button Grid.Row="3" 
+                                Grid.Column="0">
+                            Start
                         </Button>
                     </StackPanel>
                 </Border>

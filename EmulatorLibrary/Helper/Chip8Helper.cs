@@ -10,6 +10,7 @@ namespace EmulatorLibrary.Helper
             ushort instruction = Fetch(chip8);
             DecodeExecute(chip8, instruction);
         }
+
         private ushort Fetch(IChip8 chip8)
         {
             // Each instruction is 2 bytes. That is why i get 2 bytes from memory and increase program counter by 2.
@@ -50,19 +51,19 @@ namespace EmulatorLibrary.Helper
                     Instruction0x1NNNJump(chip8, NNN);
                     break;
                 case (0x0000, 0x0000, 0x00E0, 0x000E):
-                    throw new NotImplementedException();
+                    Instruction0x00EEReturnFromSubroutine(chip8);
                     break;
                 case (0x2000, _, _, _):
-                    throw new NotImplementedException();
+                    Instruction0x2NNNJumpAndPushPCToStack(chip8, NNN);
                     break;
                 case (0x3000, _, _, _):
-                    throw new NotImplementedException();
+                    Instruction0x3XNNSkipIfEqual(chip8, vXRegisterAddress, NN);
                     break;
                 case (0x4000, _, _, _):
-                    throw new NotImplementedException();
+                    Instruction0x4XNNSkipIfNotEqual(chip8, vXRegisterAddress, NN);
                     break;
                 case (0x5000, _, _, _):
-                    throw new NotImplementedException();
+                    Instruction0x5XY0SkipsIfEqual(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0x6000, _, _, _):
                     Instruction0x6XNNSetRegisterVX(chip8, vXRegisterAddress, NN);
@@ -71,34 +72,34 @@ namespace EmulatorLibrary.Helper
                     Instruction0x7XNNAddValueToRegisterVX(chip8, vXRegisterAddress, NN);
                     break;
                 case (0x8000, _, _, 0x0000):
-                    throw new NotImplementedException();
+                    Instruction0x8XY0SetVxToVy(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0x8000, _, _, 0x0001):
-                    throw new NotImplementedException();
+                    Instruction0x8XY1SetVxToBitwiseOr(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0x8000, _, _, 0x0002):
-                    throw new NotImplementedException();
+                    Instruction0x8XY2SetVxToBitwiseAnd(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0x8000, _, _, 0x0003):
-                    throw new NotImplementedException();
+                    Instruction0x8XY3SetVxToBitwiseExclusiveOr(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0x8000, _, _, 0x0004):
-                    throw new NotImplementedException();
+                    Instruction0x8XY4AddVxAndVy(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0x8000, _, _, 0x0005):
-                    throw new NotImplementedException();
+                    Instruction0x8XY5SubtractVxMinusVy(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0x8000, _, _, 0x0006):
                     throw new NotImplementedException();
                     break;
                 case (0x8000, _, _, 0x0007):
-                    throw new NotImplementedException();
+                    Instruction0x8XY7SubtractVyMinusVx(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0x8000, _, _, 0x000E):
                     throw new NotImplementedException();
                     break;
                 case (0x9000, _, _, _):
-                    throw new NotImplementedException();
+                    Instruction0x9XY0SkipsIfNotEqual(chip8, vXRegisterAddress, vYRegisterAddress);
                     break;
                 case (0xA000, _, _, _):
                     Instruction0xANNNSetIndexRegisterI(chip8, NNN);
@@ -107,7 +108,7 @@ namespace EmulatorLibrary.Helper
                     throw new NotImplementedException();
                     break;
                 case (0xC000, _, _, _):
-                    throw new NotImplementedException();
+                    Instruction0xCXNNRandomNumber(chip8, vXRegisterAddress, NN);
                     break;
                 case (0xD000, _, _, _):
                     Instruction0xDXYNDraw(chip8, vXRegisterAddress, vYRegisterAddress, forthNibble);
@@ -130,7 +131,64 @@ namespace EmulatorLibrary.Helper
             }
         }
 
-        private void Instruction0xDXYNDraw(IChip8 chip8, ushort X, ushort Y, ushort N) 
+        private void Instruction0x00E0CleanScreen(IChip8 chip8) => chip8.Screen = new bool[chip8.Screen.GetLength(0), chip8.Screen.GetLength(1)];
+        private void Instruction0x00EEReturnFromSubroutine(IChip8 chip8)
+        {
+            chip8.ProgramCounter = chip8.Stack.Pop();
+        }
+        private void Instruction0x1NNNJump(IChip8 chip8, ushort NNN) => chip8.ProgramCounter = NNN;
+        private void Instruction0x2NNNJumpAndPushPCToStack(IChip8 chip8, ushort NNN)
+        {
+            chip8.Stack.Push(chip8.ProgramCounter);
+            chip8.ProgramCounter = NNN;
+        }
+        private void Instruction0x3XNNSkipIfEqual(IChip8 chip8, ushort vXRegisterAddress, ushort NN)
+        {
+            if(chip8.VRegister[vXRegisterAddress] == NN)
+            {
+                chip8.ProgramCounter += 2;
+            }
+        }
+        private void Instruction0x4XNNSkipIfNotEqual(IChip8 chip8, ushort vXRegisterAddress, ushort NN)
+        {
+            if( chip8.VRegister[vXRegisterAddress] != NN )
+            {
+                chip8.ProgramCounter += 2;
+            }
+        }
+        private void Instruction0x5XY0SkipsIfEqual(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress)
+        {
+            if(chip8.VRegister[vXRegisterAddress] == chip8.VRegister[vYRegisterAddress] )
+            {
+                chip8.ProgramCounter += 2;
+            }
+        }
+        private void Instruction0x6XNNSetRegisterVX(IChip8 chip8, ushort X, ushort NN) => chip8.VRegister[X] = (byte)NN;
+        private void Instruction0x7XNNAddValueToRegisterVX(IChip8 chip8, ushort X, ushort NN) => chip8.VRegister[X] += (byte)NN;
+        private void Instruction0x8XY0SetVxToVy(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress) => chip8.VRegister[vXRegisterAddress] = chip8.VRegister[vYRegisterAddress];
+        private void Instruction0x8XY1SetVxToBitwiseOr(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress) => chip8.VRegister[vXRegisterAddress] = (byte)(chip8.VRegister[vXRegisterAddress] | chip8.VRegister[vYRegisterAddress] );
+        private void Instruction0x8XY2SetVxToBitwiseAnd(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress) => chip8.VRegister[vXRegisterAddress] = (byte)(chip8.VRegister[vXRegisterAddress] & chip8.VRegister[vYRegisterAddress] );
+        private void Instruction0x8XY3SetVxToBitwiseExclusiveOr(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress) => chip8.VRegister[vXRegisterAddress] = (byte)(chip8.VRegister[vXRegisterAddress] ^ chip8.VRegister[vYRegisterAddress] );
+        // Overflow carry flag not handled in instruction 0x8XY4
+        private void Instruction0x8XY4AddVxAndVy(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress) => chip8.VRegister[vXRegisterAddress] = (byte)(chip8.VRegister[vXRegisterAddress] + chip8.VRegister[vYRegisterAddress] );
+        private void Instruction0x8XY5SubtractVxMinusVy(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress) => chip8.VRegister[vXRegisterAddress] = (byte)(chip8.VRegister[vXRegisterAddress] - chip8.VRegister[vYRegisterAddress] );
+        // Overflow carry flag not handed in instruction 0x8XY7
+        private void Instruction0x8XY7SubtractVyMinusVx(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress) => chip8.VRegister[vXRegisterAddress] = (byte)(chip8.VRegister[vYRegisterAddress] - chip8.VRegister[vXRegisterAddress] );
+        private void Instruction0x9XY0SkipsIfNotEqual(IChip8 chip8, ushort vXRegisterAddress, ushort vYRegisterAddress)
+        {
+            if( chip8.VRegister[vXRegisterAddress] != chip8.VRegister[vYRegisterAddress] )
+            {
+                chip8.ProgramCounter += 2;
+            }
+        }
+        private void Instruction0xANNNSetIndexRegisterI(IChip8 chip8, ushort NNN) => chip8.IRegister = NNN;
+        private void Instruction0xCXNNRandomNumber(IChip8 chip8, ushort vXRegisterAddress, ushort NN)
+        {
+            Random rand = new Random();
+            int randomNumber = rand.Next(0, NN);
+            chip8.VRegister[vXRegisterAddress] = (byte)(randomNumber & NN);
+        }
+        private void Instruction0xDXYNDraw(IChip8 chip8, ushort X, ushort Y, ushort N)
         {
             ushort YCoordinate = (ushort)( chip8.VRegister[Y] & 31 );
             chip8.VRegister[0xF] = 0x00;
@@ -166,14 +224,7 @@ namespace EmulatorLibrary.Helper
                 }
             }
         }
-
-        private void Instruction0xANNNSetIndexRegisterI(IChip8 chip8, ushort NNN) => chip8.IRegister = NNN;
-        private void Instruction0x7XNNAddValueToRegisterVX(IChip8 chip8, ushort X, ushort NN) => chip8.VRegister[X] += (byte)NN;
-        private void Instruction0x6XNNSetRegisterVX(IChip8 chip8, ushort X, ushort NN) => chip8.VRegister[X] = (byte)NN;
-        private void Instruction0x1NNNJump(IChip8 chip8, ushort NNN) => chip8.ProgramCounter = NNN;
-        private void Instruction0x00E0CleanScreen(IChip8 chip8) => chip8.Screen = new bool[chip8.Screen.GetLength(0), chip8.Screen.GetLength(1)];
-
-        public void LoadProgramToMemory(IChip8 chip8, string path, int memoryLocation)
+        public void LoadProgramIntoMemory(IChip8 chip8, string path, int memoryLocation)
         {
             var bytes = File.ReadAllBytes(path);
             for( int i = 0; i < bytes.Length; i++ )
@@ -182,7 +233,6 @@ namespace EmulatorLibrary.Helper
                 memoryLocation++;
             }
         }
-
         public void SetFonts(IChip8 chip8)
         {
             #region 0
